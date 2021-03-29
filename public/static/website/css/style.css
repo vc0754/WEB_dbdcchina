@@ -398,6 +398,10 @@ body.brand .swiper-container {
   text-align: center;
   padding: 35px 0;
 }
+.product-list .view-more:hover {
+  color: #53ff7a;
+  border-color: #53ff7a;
+}
 .case-detail {
   color: #000;
   font-size: 18px;
@@ -406,6 +410,7 @@ body.brand .swiper-container {
 .case-detail h1.title {
   font-size: 50px;
   margin-bottom: 15px;
+  border-bottom: solid 1px #373737;
 }
 .case-detail .content {
   font-size: 18px;
@@ -969,6 +974,10 @@ body.brand .swiper-container {
   color: #fff;
   border-color: #fff;
 }
+.branddetail .team .view-more:hover {
+  color: #53ff7a;
+  border-color: #53ff7a;
+}
 .branddetail .team ul {
   padding: 100px 0 20px;
   margin: 0 -27px;
@@ -984,6 +993,7 @@ body.brand .swiper-container {
 }
 .branddetail .team ul li .twrap .thumb img {
   display: block;
+  max-width: 100%;
 }
 .branddetail .team ul li .twrap .thumb .info {
   background-color: rgba(83, 255, 122, 0.9);
@@ -1845,8 +1855,11 @@ body.branddetail .swiper-container {
   .content-layer h1 {
     font-size: 48px;
   }
+  .content-layer h2 {
+    font-size: 26px;
+  }
   .content-layer h3 {
-    font-size: 38px;
+    font-size: 26px;
     padding-bottom: 65px;
   }
   header {
@@ -2003,17 +2016,25 @@ body.branddetail .swiper-container {
     width: 100%;
     padding: 0 15px;
   }
+  .wrap.p-t-90 {
+    padding-top: 15px !important;
+  }
   .index-title {
     margin: 25px 0;
     flex-direction: column;
     align-items: flex-start;
   }
   .index-title .cn {
-    font-size: 32px;
+    font-size: 26px;
     margin-left: 10px;
   }
   .index-title .en {
-    font-size: 32px;
+    font-size: 26px;
+    letter-spacing: 12px;
+    margin-left: 10px;
+  }
+  .index-title .en em {
+    margin: 0;
   }
   .index-product-list ul {
     margin-left: 0;
@@ -2021,6 +2042,9 @@ body.branddetail .swiper-container {
   }
   .index-product-list ul li {
     width: 100%;
+  }
+  .index-product-list ul li .name {
+    font-size: 21px;
   }
   .index-product-list ul li .thumb {
     width: 100%;
@@ -2071,6 +2095,13 @@ body.branddetail .swiper-container {
   }
   .about-us .team ul li .twrap .name {
     font-size: 19px;
+    padding: 15px 0;
+  }
+  .about-us .team ul li .twrap .thumb .info {
+    font-size: 12px;
+    padding: 15px;
+    line-height: 1.65;
+    overflow: hidden;
   }
   .brand-list .wrap {
     padding: 35px 15px;
