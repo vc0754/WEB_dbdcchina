@@ -1,0 +1,5 @@
+<ul class="classification">
+    {volist name="cates" id="vo"}
+        <li {eq name="post.cid" value="$vo['cid']"}class="current"{/eq}><a href="{:url('index/advantage/index', ['mark'=>$vo['mark']])}">{$vo.name} {$vo.en_name}</a></li>
+    {/volist}
+</ul>

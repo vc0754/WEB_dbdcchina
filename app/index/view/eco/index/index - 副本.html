@@ -1,0 +1,171 @@
+{extend name="Public:base" /}
+
+{block name="link-js"}
+    <script>
+        //Picture element HTML5 shiv banner轮播大小图
+        document.createElement("picture");
+    </script>
+    <script src="/static/website/plugins/picturefill.min.js" async></script>
+{/block}
+
+{block name="banner"}
+    <!-- home-carousel -->
+    <div id="carousel">
+        <div class="bd">
+            <ul>
+                {volist name="slides" id="vo"}
+                <li>
+                    <picture>
+                        <!--[if IE 9]><video style="display: none;"><![endif]-->
+                        <!-- mobile -->
+                        <source media="(max-width:500px)" srcset="{$vo.thumb}">
+                        <!--[if IE 9]></video><![endif]-->
+                        <!-- pc -->
+                        <img src="{$vo.banner}" />
+                    </picture>
+                </li>
+                {/volist}
+            </ul>
+        </div>
+        <div class="hd">
+            <ul></ul>
+        </div>
+
+        <a class="prev" href="javascript:"></a>
+        <a class="next" href="javascript:"></a>
+    </div>
+    <!-- home-carousel -->
+{/block}
+
+{block name="content"}
+    <!-- product-list -->
+    <div class="product-list">
+        <div class="wrap">
+            <div class="ant-container">
+                <h2 class="ant1 cn title">实力立足 实战有例</h2>
+                <h2 class="ant2 en title">CHEUNG KONG DESIGN</h2>
+            </div>
+            <ul class="clearfix list">
+                {volist name="post.products" id="vo"}
+                <li class="ant-container">
+                    <div class="ani1">
+                        <a href="{:url('index/product/detail', ['id'=>$vo['id']])}">
+                            <div class="thumb">
+                                <img src="{$vo.thumb}" alt="">
+                            </div>
+                            <span class="name">{$vo.title}</span>
+                        </a>
+                    </div>
+                </li>
+                {/volist}
+            </ul>
+            <div class="ant-container">
+                <a href="{:url('index/product/index')}" class="view-more ant1">VIEW MORE <span>▶</span></a>
+            </div>
+        </div>
+    </div>
+    <!-- product-list -->
+
+    <!-- director -->
+    <div class="director">
+        <picture>
+            <!--[if IE 9]><video style="display: none;"><![endif]-->
+            <!-- mobile -->
+            <source media="(max-width:500px)" srcset="/static/website/images/CHEUNG-KONG-m.jpg">
+            <!--[if IE 9]></video><![endif]-->
+            <!-- pc -->
+            <img src="/static/website/images/CHEUNG-KONG.jpg" />
+        </picture>
+    </div>
+    <!-- director -->
+
+    <div class="home-service">
+        <ul class="ant-container">
+            <li class="item1 ant1">
+                <a href="{:url('index/page/service')}">
+                    <div class="icon"></div>
+                    <span class="desc">三大业务版块 专业服务细分</span>
+                </a>
+            </li>
+            <li class="item2 ant1">
+                <a href="{:url('index/page/service')}">
+                    <div class="icon"></div>
+                    <span class="desc">精细化分工 原创执行力</span>
+                </a>
+            </li>
+            <li class="item3 ant1">
+                <a href="{:url('index/page/service')}">
+                    <div class="icon"></div>
+                    <span class="desc">团队协作 严谨评估</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- handpainted-photography -->
+    <div class="handpainted-photography clearfix">
+        {volist name="post.advantage" id="vo"}
+        <div class="item">
+            <img src="{$vo.thumb}" alt="">
+            <div class="desc ant-container">
+                <h2 class="title cn ant1">{$vo.home_title}</h2>
+                <h2 class="title en ant2">{$vo.en_home_title}</h2>
+                <div class="ant3"><a href="{:url('index/advantage/index', ['mark'=>$vo['mark']])}" class="view-more">VIEW MORE <span>▶</span></a></div>
+            </div>
+        </div>
+        {/volist}
+    </div>
+    <!-- handpainted-photography -->
+
+    <!-- client-list -->
+    <div class="client-list">
+        <div class="wrap">
+            <div class="ant-container">
+                <h2 class="ant1 cn title">实战而出 真实而战</h2>
+                <h2 class="ant2 en title">CHEUNG KONG PARTNER</h2>
+            </div>
+            <ul class="clearfix list">
+                {volist name="post.clients" id="vo"}
+                <li class="ant-container">
+                    <img class="ant1" src="{$vo}" alt="">
+                </li>
+                {/volist}
+            </ul>
+            <div class="ant-container">
+                <a href="{:url('index/page/about#clinet')}" class="view-more ant1">VIEW MORE <span>▶</span></a>
+            </div>
+        </div>
+    </div>
+    <!-- client-list -->
+{/block}
+
+{block name="script"}
+    <script src="/static/website/plugins/jquery.SuperSlide.2.1.2.js"></script>
+    <script>
+        $(function() {
+            (function() {
+                $("#carousel").slide({
+                    titCell: ".hd ul",
+                    mainCell: ".bd ul",
+                    effect: "leftLoop",
+                    vis: "auto",
+                    autoPlay: true,
+                    autoPage: true,
+                    trigger: "click",
+                    mouseOverStop: false,
+                    interTime: 5000,
+                    easing: 'easeInOutExpo',
+                    delayTime: 800
+                });
+            })();
+        });
+    </script>
+    <script>
+        // 首页手机轮播
+        (function() {
+            if ('ontouchend' in document.body) {
+                // document.write('<script type="text/javascript" src="/static/website/plugins/hammer-2.0.8.min.js"><\/script><script type="text/javascript" src="/static/website/js/gestureForCarousel.js"><\/script>');
+            }
+        })();
+    </script>
+{/block}

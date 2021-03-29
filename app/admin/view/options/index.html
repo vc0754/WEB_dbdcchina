@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css"  media="all">
+  <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all" />
+  <link rel="stylesheet" href="__CSS__/admin.css"  media="all">
+</head>
+<body style="padding:10px;">
+  <div class="tplay-body-div">
+    <div style="margin-top: 20px;">
+    </div>
+    <form class="layui-form" id="admin">
+      
+     
+      <div class="layui-form-item">
+        <label class="layui-form-label">网站标题</label>
+        <div class="layui-input-block" style="max-width: 400px">
+          <input name="title" lay-verify="pass" placeholder="请输入网站标题" autocomplete="off" class="layui-input" type="text" {present name="options.title"}value="{$options.title}"{/present}>
+        </div>
+      </div>
+      {eq name="Think.config.version.en" value="true"}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文</span>标题</label>
+        <div class="layui-input-block" style="max-width: 400px">
+          <input name="en_title" lay-verify="pass" placeholder="请输入网站标题（英文）" autocomplete="off" class="layui-input" type="text" {present name="options.en_title"}value="{$options.en_title}"{/present}>
+        </div>
+      </div>
+      {/eq}
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">网站关键词</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="keywords" lay-verify="pass" placeholder="请输入网站关键词，多个用','隔开" autocomplete="off" class="layui-input" type="text" {present name="options.keywords"}value="{$options.keywords}"{/present}>
+        </div>
+      </div>
+      {eq name="Think.config.version.en" value="true"}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文</span>关键词</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="en_keywords" lay-verify="pass" placeholder="请输入网站关键词（英文），多个用','隔开" autocomplete="off" class="layui-input" type="text" {present name="options.en_keywords"}value="{$options.en_keywords}"{/present}>
+        </div>
+      </div>
+      {/eq}
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">网站描述</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <textarea placeholder="请输入网站描述" class="layui-textarea" name="desc">{present name="options.desc"}{$options.desc}{/present}</textarea>
+        </div>
+      </div>
+      {eq name="Think.config.version.en" value="true"}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文</span>描述</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <textarea placeholder="请输入网站描述（英文）" class="layui-textarea" name="en_desc">{present name="options.en_desc"}{$options.en_desc}{/present}</textarea>
+        </div>
+      </div>
+      {/eq}
+<!-- 
+      <div class="layui-form-item">
+        <label class="layui-form-label">产品热门搜索<span class="red"><br/>（关键词之间用英文逗号分隔）</span></label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <textarea placeholder="请输入产品热门搜索的关键词" class="layui-textarea" name="hot_search">{present name="options.hot_search"}{$options.hot_search}{/present}</textarea>
+        </div>
+      </div>
+ -->
+      <div class="layui-form-item">
+        <label class="layui-form-label">公司名称</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="company" placeholder="请输入公司名称" autocomplete="off" class="layui-input" type="text" {present name="options.company"}value="{$options.company}"{/present}>
+        </div>
+      </div>
+      {eq name="Think.config.version.en" value="true"}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文</span>名称</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="en_company" placeholder="请输入公司名称（英文）" autocomplete="off" class="layui-input" type="text" {present name="options.en_company"}value="{$options.en_company}"{/present}>
+        </div>
+      </div>
+      {/eq}
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">公司地址</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="address" placeholder="请输入公司地址" autocomplete="off" class="layui-input" type="text" {present name="options.address"}value="{$options.address}"{/present}>
+        </div>
+      </div>
+      {eq name="Think.config.version.en" value="true"}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文</span>地址</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="en_address" placeholder="请输入公司地址（英文）" autocomplete="off" class="layui-input" type="text" {present name="options.en_address"}value="{$options.en_address}"{/present}>
+        </div>
+      </div>
+      {/eq}
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">联系电话</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="telephone" placeholder="请输入联系电话" autocomplete="off" class="layui-input" type="text" {present name="options.telephone"}value="{$options.telephone}"{/present}>
+        </div>
+      </div>
+<!--
+      <div class="layui-form-item">
+        <label class="layui-form-label">传真号码</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="fax" placeholder="请输入传真号码" autocomplete="off" class="layui-input" type="text" {present name="options.fax"}value="{$options.fax}"{/present}>
+        </div>
+      </div>
+	  -->
+      <div class="layui-form-item">
+        <label class="layui-form-label">联系邮箱</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="email" placeholder="请输入联系邮箱" autocomplete="off" class="layui-input" type="text" {present name="options.email"}value="{$options.email}"{/present}>
+        </div>
+      </div> 
+	  <!--
+      <div class="layui-form-item">
+        <label class="layui-form-label">联系邮箱2</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="email2" placeholder="请输入联系邮箱" autocomplete="off" class="layui-input" type="text" {present name="options.email2"}value="{$options.email2}"{/present}>
+        </div>
+      </div>
+-->
+      <div class="layui-form-item">
+        <label class="layui-form-label">收件邮箱</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="mailbox" placeholder="请输入收件邮箱" autocomplete="off" class="layui-input" type="text" {present name="options.mailbox"}value="{$options.mailbox}"{/present} lay-verify="required|email">
+        </div>
+      </div>
+    
+      <div class="layui-form-item">
+        <label class="layui-form-label">客服QQ</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="qq" placeholder="请输入客服QQ号码" autocomplete="off" class="layui-input" type="text" {present name="options.qq"}value="{$options.qq}"{/present}>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">微博URL</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="weibo_url" placeholder="请输入微博 URL" autocomplete="off" class="layui-input" type="text" {present name="options.weibo_url"}value="{$options.weibo_url}"{/present} lay-verify="required|url">
+        </div>
+      </div>
+<!-- 
+      <div class="layui-form-item">
+        <label class="layui-form-label">天猫URL</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="tmall_url" placeholder="请输入天猫 URL" autocomplete="off" class="layui-input" type="text" {present name="options.tmall_url"}value="{$options.tmall_url}"{/present} lay-verify="required|url">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">京东URL</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="jd_url" placeholder="请输入京东 URL" autocomplete="off" class="layui-input" type="text" {present name="options.jd_url"}value="{$options.jd_url}"{/present} lay-verify="required|url">
+        </div>
+      </div>
+ -->      
+      <div class="layui-form-item">
+        <label class="layui-form-label">百度地图URL</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="map_url" placeholder="请输入公司地址所在的 百度地图URL" autocomplete="off" class="layui-input" type="text" {present name="options.map_url"}value="{$options.map_url}"{/present} lay-verify="required|url">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">ICP备案号</label>
+        <div class="layui-input-block" style="max-width: 600px">
+          <input name="icp_num" placeholder="请输入网站域名备案号" autocomplete="off" class="layui-input" type="text" {present name="options.icp_num"}value="{$options.icp_num}"{/present}>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="admin">立即提交</button>
+          <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+        </div>
+      </div>
+    </form>
+
+    <script src="__PUBLIC__/layui/layui.js"></script>
+    <script src="__PUBLIC__/jquery/jquery.min.js"></script>
+    <script>
+      layui.use(['layer', 'form'], function() {
+          var layer = layui.layer,
+              $ = layui.jquery,
+              form = layui.form;
+          $(window).on('load', function() {
+              form.on('submit(admin)', function(data) {
+                  $.ajax({
+                      url:"{:url('admin/options/publish')}",
+                      data:$('#admin').serialize(),
+                      type:'post',
+                      async: false,
+                      success:function(res) {
+                        layer.msg(res.msg);
+                          if(res.code == 1) {
+                            setTimeout(function(){
+                              location.href = res.url;
+                            },1500) 
+                          }
+                      }
+                  })
+                  return false;
+              });
+          });
+      });
+    </script>
+  </div>
+</body>
+</html>

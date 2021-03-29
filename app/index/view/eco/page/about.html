@@ -1,0 +1,43 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {volist name="slides" id="vo"}
+      <div class="swiper-slide">
+        <div class="background" style="background-image: url('{$vo.banner}');"></div>
+        <div class="content-layer">
+            <!-- <h1>{$vo.name}</h1> -->
+            <h1>关于</h1>
+        </div>
+      </div>
+    {/volist}
+  </div>
+</div>
+{/block}
+
+{block name="content"}
+<div class="about-us">
+  <div class="wrap">
+    <div class="overview">
+      {$post.content}
+    </div>
+
+    <div class="team">
+      <ul>
+        {volist name="teams" id="vo" empty="客户资料更新加..."}
+        <li>
+          <div class="twrap ant-container">
+            <div class="thumb">
+              <img class="ant1" src="{$vo.thumb}" alt="">
+              <div class="info">{$vo.description|nl2br}</div>
+            </div>
+            <h3 class="name">{$vo.title}{present name="vo.en_title"}<span>{$vo.en_title}</span>{/present}</h3>
+          </div>
+        </li>
+        {/volist}
+      </ul>
+    </div>
+  </div>
+</div>
+{/block}

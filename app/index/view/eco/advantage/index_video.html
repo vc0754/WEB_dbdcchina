@@ -1,0 +1,44 @@
+{extend name="Public:base" /}
+
+{block name="content"}
+    <div class="advantage">
+        <div class="wrap">
+            <!-- 导入分类 -->
+            {include file="advantage/inc_cates" /} 
+
+            <div class="video-thumb">
+                <div class="top ant-container">
+                    <img class="ant1" src="{$post.curr_banner}" alt="">
+                </div>
+                <div class="list">
+                    <ul class="clearfix">
+                        <!-- odd 左侧，even右侧，block 100% -->
+                        {volist name="lists" id="vo" key="k"}
+                            {php}
+                            if($vo['num'] == 2){
+                                $class = 'block';       //占整行
+                            }else{
+                                if($k%2 != 0){
+                                    $class = 'odd';     //左侧
+                                }else{
+                                    $class = 'even';    //右侧
+                                }
+                            }   
+                            {/php}
+                            <li class="ant-container {$class}">
+                                <div class="ant1">
+                                    <a href="{:url('index/advantage/detail', ['id'=>$vo['id']])}">
+                                        <img src="{$vo.thumb}" alt="">
+                                        <span class="icon"></span>
+                                    </a>
+                                </div>
+                            </li>
+                        {/volist}                            
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{/block}
+
+{block name="script"}{/block}

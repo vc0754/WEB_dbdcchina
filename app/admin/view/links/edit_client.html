@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css"  media="all">
+  <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all" />
+  <link rel="stylesheet" href="__CSS__/admin.css"  media="all">
+</head>
+<body style="padding:10px;">
+  <div class="tplay-body-div">
+    <div class="layui-tab">
+      <ul class="layui-tab-title">
+        <li><a href="{:url('admin/links/index',['type'=>$type])}" class="a_menu">客户列表</a></li>
+        <li class="layui-this">客户修改</li>
+      </ul>
+    </div> 
+    <div style="margin-top: 20px;"> </div>
+
+    <form class="layui-form" id="admin">     
+      <div class="layui-form-item">
+        <label class="layui-form-label">客户名称</label>
+        <div class="layui-input-block width-800">
+          <input type="text" name="title" value="{$result.title}" autocomplete="off" placeholder="请输入客户名称" class="layui-input" lay-verify="required">
+        </div>
+      </div>
+      {eq name="Think.config.version.en" value="true"}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文-</span>名称</label>
+        <div class="layui-input-block width-800">
+          <input type="text" name="en_title" value="{$result.en_title}" autocomplete="off" placeholder="请输入名称（英文）" class="layui-input" lay-verify="required">
+        </div>
+      </div>
+      {/eq}
+<!-- 
+      <div class="layui-form-item">
+        <label class="layui-form-label">链接</label>
+        <div class="layui-input-block width-800">
+            <input type="text" name="link" value="{$result.link}" autocomplete="off" placeholder="（选填）请输入链接" class="layui-input">
+        </div>
+      </div>
+ -->
+      <div style="overflow:hidden;">
+        <div class="layui-upload" id="upload-thumb" style="width:100%">
+          <label class="layui-form-label">图片上传</label>
+          <button type="button" class="layui-btn" id="thumb"><i class="layui-icon">&#xe67c;</i>客户LOGO（尺寸：200*100px）</button>
+          <div class="layui-upload-list">
+            <label class="layui-form-label"></label>
+            <img {notempty name="$result.thumb"}src="{$result.thumb|geturl}"{/notempty} width="150" height="150" class="layui-upload-img" id="demo1">
+            <p id="demoText"></p>
+          </div>
+        </div>  
+      </div> 
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">首页推荐</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="is_top" value="1" {eq name="$result.is_top" value="1"}checked=""{/eq} lay-skin="switch" lay-text="是|否" lay-filter="switchTest">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline width-800">
+          <input type="text" name="orders" value="{$result.orders}" maxlength="5" autocomplete="off" placeholder="小排前" class="layui-input" lay-verify="required|number">
+        </div>
+        <div class="layui-form-mid layui-word-aux">小排前</div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <input type="hidden" name="id" value="{$result.id}">
+          <input type="hidden" name="type" value="{$type}">
+          <button class="layui-btn" lay-submit lay-filter="admin">立即提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+<script src="__PUBLIC__/layui/layui.js"></script>
+<script src="__PUBLIC__/jquery/jquery.min.js"></script>
+<script>
+  layui.use('upload', function(){
+    var upload = layui.upload;
+    //执行实例
+    var uploadInst = upload.render({
+      elem: '#thumb' //绑定元素
+      ,url: "{:url('common/upload')}" //上传接口
+      ,data:{use:'links'}
+      ,done: function(res){
+        //上传完毕回调
+        if(res.code == 2) {
+          $('#demo1').attr('src',res.src);
+          $('#upload-thumb').append('<input type="hidden" name="thumb" value="'+ res.id +'">');
+        } else {
+          layer.msg(res.msg);
+        }
+      }
+      ,error: function(){
+        //请求异常回调
+        //演示失败状态，并实现重传
+        var demoText = $('#demoText');
+        demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+        demoText.find('.demo-reload').on('click', function(){
+          uploadInst.upload();
+        });
+      }
+    });
+  });
+</script>
+<script>
+  layui.use(['layer', 'form', 'element'], function() {
+      var layer = layui.layer,
+          $ = layui.jquery,
+          form = layui.form,
+          element = layui.element;
+
+      $(window).on('load', function() {
+          form.on('submit(admin)', function(data) {
+              $.ajax({
+                  url:"{:url('admin/links/edit')}",
+                  data:$('#admin').serialize(),
+                  type:'post',
+                  async: false,
+                  success:function(res) {
+                      if(res.code == 1) {
+                          layer.alert(res.msg, function(index){
+                            location.href = res.url;
+                          })
+                      } else {
+                          layer.msg(res.msg);
+                      }
+                  }
+              })
+              return false;
+          });
+      });
+  });
+</script>
+</body>
+</html>

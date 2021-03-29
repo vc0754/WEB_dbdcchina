@@ -1,0 +1,51 @@
+{extend name="Public:base" /}
+
+{block name="link-js"}
+<!--video-->
+    <link rel="stylesheet" href="/static/website/plugins/video/video-js.min.css">
+    <!--video-->
+    <script src="/static/website/plugins/video/video.js"></script>
+    <!-- video.js must be in the <head> for IE8 to work. -->
+{/block}
+
+{block name="banner"}{/block}
+
+{block name="content"}
+    <div class="video-page">
+        <!-- html5原生 -->
+        <video class="html5-video" src="{$detail.video_url}" controls="controls" poster="{$detail.banner}" type="video/mp4">
+            <p>
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="http://videojs.com/html5-video-support/" target="_blank">
+              supports HTML5 video
+            </a>
+          </p>
+        </video>
+
+        <!-- 兼容 -->
+        <video class="downgrade-video video-js vjs-default-skin vjs-big-play-centered" controls preload="none" width="1920" height="800" poster="{$detail.banner}" data-setup="{}">
+            <source src="{$detail.video_url}" type="video/mp4" />
+      </video>
+
+        <div class="desc wrap">
+            <h2>{$detail.title}</h2>
+            <h3>{$detail.subtitle}</h3>
+            <p>{$detail.description}</p>
+        </div>
+    </div>
+{/block}
+
+{block name="script"}
+    <script src="/static/website/plugins/modernizr-custom.js"></script>
+    <script>
+        if (Modernizr.video) {
+            $('.html5-video').show();
+            $('.downgrade-video').hide();
+        } else {
+            $('.html5-video').hide();
+            $('.downgrade-video').show();
+        }
+    </script>
+
+{/block}

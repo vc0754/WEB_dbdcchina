@@ -1,0 +1,176 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {volist name="slides" id="vo"}
+      <div class="swiper-slide">
+        <div class="background" style="background-image: url('{$vo.banner}');"></div>
+        <div class="content-layer">
+            <!-- <h1>{$vo.name}</h1> -->
+            <h1>联系</h1>
+        </div>
+      </div>
+    {/volist}
+  </div>
+</div>
+{/block}
+
+{block name="link-css"}
+    <link rel="stylesheet" href="/static/public/layui/css/layui.css">
+{/block}
+
+{block name="content"}
+    <div class="contact-us">
+        <div class="wrap clearfix">
+            <div class="info">
+                <dl>
+                    <dt>ADDRESS</dt>
+                    <dd>
+                        <span>{$options.address}</span>
+                    </dd>
+                    <dt>TELEPHONE</dt>
+                    <dd>
+                        <span>{$options.telephone}</span>
+                    </dd>
+                    <dt>E-MAIL</dt>
+                    <dd>
+                        <span>{$options.email}</span>
+                    </dd>
+                    <dt>ONLINE SERVICE (QQ)</dt>
+                    <dd>
+                        <span>{$options.qq}</span>
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="form-container">
+                <h2>Get in touch</h2>
+                <form action="#" class="layui-form" id="form">
+                    <div class="input-block clearfix">
+                        <input type="text" name="username" id="username" placeholder="YOUR NAME" required lay-verify="required" lay-verType="alert">
+                        <input type="text" name="phone" id="phone" placeholder="YOUR TELEPHONE NUMBER" required lay-verify="required" lay-verType="alert">
+                    </div>
+                    <div class="input-block clearfix">
+                        <input type="text" name="captcha" id="captcha-input" maxlength="4" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input short" lay-verType="tips">
+                        <img id="captcha" src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?seed='+Math.random()">
+                    </div>
+                    <div class="textarea-container">
+                        <textarea name="msg" id="msg" placeholder="YOUR MESSAGE" required lay-verify="required" lay-verType="alert"></textarea>
+                        <button class="layui-btn" lay-submit id="submit" lay-filter="signup">SEND</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="jobs">
+        <div class="wrap">
+            <h1>WANT TO JOIN US?</h1>
+            <p>以下职位有你所想要的吗？</p>
+            <p>有合适的岗位请准备好<strong>简历</strong>&<strong>作品</strong>发送到以下邮箱</p>
+            <p><strong>545537851@qq.com</strong></p>
+            <ul class="list">
+                <li><span>美术指导/导视设计</span></li>
+                <li><span>品牌设计</span></li>
+                <li><span>品牌设计项目总监</span></li>
+                <li><span>美术指导/导视设计</span></li>
+                <li><span>品牌设计</span></li>
+                <li><span>品牌设计项目总监</span></li>
+                <li><span>美术指导/导视设计</span></li>
+                <li><span>品牌设计</span></li>
+                <li><span>品牌设计项目总监</span></li>
+            </ul>
+            <ul class="gallery">
+                <li>
+                    <img src="/static/website/images/g1.png" alt="">
+                </li>
+                <li>
+                    <img src="/static/website/images/g2.png" alt="">
+                </li>
+                <li>
+                    <img src="/static/website/images/g3.png" alt="">
+                </li>
+                <li>
+                    <img src="/static/website/images/g4.png" alt="">
+                </li>
+            </ul>
+        </div>
+    </div>
+{/block}
+
+{block name="plugins-js"}
+    <script src="/static/public/layui/layui.js"></script>
+{/block}
+
+{block name="script"}
+    <script>
+        var flag = 1;
+        layui.use(['form', 'layer'], function() {
+            var form = layui.form,
+                layer = layui.layer;
+
+            form.on('submit', function() {
+                if (flag === 1) {
+                    $.ajax({
+                        url: "{:url('index/messages/send')}",
+                        type: 'POST',
+                        data: $("#form").serializeArray(),
+                        dataType: 'json',
+                        async: true,
+                        beforeSend: function() {
+                            flag = 0; //防重复变量 改为0
+                            $('#submit').css('cursor', 'not-allowed').attr("disabled", true).text('数据提交中...'); //禁用提交按钮
+                        },
+                        complete: function() {
+                            flag = 1;
+                            $('#submit').css('cursor', 'pointer').attr("disabled", false).text('提交留言'); //激活提交按钮
+                        },
+                        success: function(res) {
+                            if(res.code == 1){ //成功
+                                layer.alert(res.msg, {
+                                    icon: 1,
+                                    title: false,
+                                    skin: 'layui-layer-lan',
+                                    closeBtn: 0,
+                                    scrollbar: false,
+                                    yes: function(index) {
+                                        $("#form")[0].reset(); //表单重置 reset
+                                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                    }
+                                });
+                            }else{
+                                $('#captcha-input').val(''); //置空图形验证码
+                                $('#captcha').click(); //刷新图形验证码
+
+                                layer.alert(res.msg, {
+                                    icon: 2,
+                                    title: false,
+                                    skin: 'layui-layer-lan',
+                                    closeBtn: 0,
+                                    scrollbar: false,
+                                    yes: function(index) {
+                                        layer.close(index); //如果设定了yes回调，需进行手工关闭
+                                    }
+                                });  
+                            }
+                        },
+                        error: function() {
+                            layer.alert('信息提交失败，请稍后再试！', {
+                                icon: 2,
+                                title: false,
+                                skin: 'layui-layer-lan',
+                                closeBtn: 0,
+                                scrollbar: false,
+                                yes: function(index) {
+                                    layer.close(index); //手工关闭
+                                }
+                            });
+                        }
+                    });
+                }
+                return false;
+            });
+        });
+    </script>
+{/block}

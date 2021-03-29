@@ -1,0 +1,92 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {volist name="slides" id="vo"}
+      <div class="swiper-slide">
+        <div class="background" style="background-image: url('{$vo.banner}');"></div>
+        <div class="content-layer flex-y-bottom">
+          <div class="wrap">
+            <h3>{$vo.title}</h3>
+          </div>
+        </div>
+      </div>
+    {/volist}
+  </div>
+  <!-- Add Pagination -->
+  <div class="swiper-pagination"></div>
+  <!-- Add Arrows -->
+  <!-- <div class="swiper-button-next"></div> -->
+  <!-- <div class="swiper-button-prev"></div> -->
+</div>
+{/block}
+
+{block name="content"}
+<div class="wrap p-t-90">
+  <h2 class="index-title ant-container">
+    <span class="ant1 en">
+      <em>TUNG</em>
+      <em>BRAND</em>
+    </span>
+    <span class="ant2 cn">生意增长设计</span>
+  </h2>
+</div>
+
+<!-- index-product-list -->
+<div class="index-product-list">
+  <div class="wrap">
+    {volist name="post.products" id="products"}
+    <ul class="clearfix list">
+      {volist name="products" id="vo"}
+      <li class="ant-container">
+        <div class="ani1">
+          <a href="{:url('index/product/detail', ['id'=>$vo['id']])}">
+            <div class="thumb" data-style="background-image: url({$vo.thumb});">
+              <img src="{$vo.thumb}" alt="" />
+            </div>
+            <div class="info">
+              <span class="name">{$vo.title}</span>
+              <span class="description">{$vo.description}</span>
+            </div>
+          </a>
+        </div>
+      </li>
+      {/volist}
+    </ul>
+    {/volist}
+    <div class="ant-container">
+      <a href="{:url('index/product/index')}" class="view-more ant1">VIEW <span>+</span></a>
+    </div>
+  </div>
+</div>
+<!-- product-list -->
+{/block}
+
+{block name="script"}
+<script>
+var mySwiper = new Swiper('.swiper-container', {
+  loop: true,
+  autoplay: {
+    delay: 2500,
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: '.swiper-pagination',
+    // dynamicBullets: true,
+  },
+  // navigation: {
+  //   nextEl: '.swiper-button-next',
+  //   prevEl: '.swiper-button-prev',
+  // }
+});
+</script>
+<script>
+// 首页手机轮播
+(function () {
+  if ('ontouchend' in document.body) {
+    // document.write('<script type="text/javascript" src="/static/website/plugins/hammer-2.0.8.min.js"><\/script><script type="text/javascript" src="/static/website/js/gestureForCarousel.js"><\/script>');
+  }
+})();
+</script>
+{/block}

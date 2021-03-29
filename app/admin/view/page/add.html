@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="__PUBLIC__/layui/css/layui.css"  media="all">
+  <link rel="stylesheet" href="__PUBLIC__/font-awesome/css/font-awesome.min.css" media="all" />
+  <link rel="stylesheet" href="__CSS__/admin.css"  media="all">
+</head>
+<body style="padding:10px;">
+  <div class="tplay-body-div">
+    <div class="layui-tab">
+      <ul class="layui-tab-title">
+        <li><a href="{:url('admin/page/index')}" class="a_menu">页面管理 </a></li>
+        <li class="layui-this">页面新增</li>
+      </ul>
+    </div> 
+    <div style="margin-top: 20px;"></div>
+
+    <form class="layui-form" id="admin">
+      <div class="layui-form-item">
+        <label class="layui-form-label">父级</label>
+          <div class="layui-input-block width-800">
+          <select name="pid" lay-filter="aihao">
+            <option value="0">请选择父级</option>
+            {volist name="parentlists" id="vo"}
+            <option value="{$vo.id}">{$vo.str}{$vo.title}</option>
+            {/volist}
+          </select>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block width-800">
+          <input type="text" name="title" autocomplete="off" placeholder="请输入标题" class="layui-input" lay-verify="required">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文- </span>标题</label>
+        <div class="layui-input-block width-800">
+          <input type="text" name="en_title" autocomplete="off" placeholder="请输入标题（英文）" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">关键词</label>
+        <div class="layui-input-block width-800">
+          <input type="text" name="keywords" autocomplete="off" placeholder="关键词之间用,隔开" class="layui-input">
+        </div>
+      </div>
+      {eq name="Think.config.version.en" value="true"}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文-</span>关键词</label>
+        <div class="layui-input-block width-800">
+          <input type="text" name="en_keywords" autocomplete="off" placeholder="（英文）关键词之间用,隔开" class="layui-input">
+        </div>
+      </div>
+      {/eq}
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">简述</label>
+        <div class="layui-input-block width-800">
+          <textarea name="description" placeholder="请输入简述内容" class="layui-textarea"></textarea>
+        </div>
+      </div>
+      {eq name="Think.config.version.en" value="true"}
+      <div class="layui-form-item">
+        <label class="layui-form-label"><span class="red">英文- </span>简述</label>
+        <div class="layui-input-block width-800">
+          <textarea name="en_description" placeholder="请输入简述内容（英文）" class="layui-textarea"></textarea>
+        </div>
+      </div>
+      {/eq}
+
+      <div style="overflow:hidden;">
+        <div class="layui-form-item">
+          <label class="layui-form-label">Banner图上传</label>
+            <div class="layui-upload" id="upload-thumb">
+              <button type="button" class="layui-btn" id="thumb">
+                <i class="layui-icon">&#xe67c;</i>手机端（尺寸：640*400px）
+              </button>
+              <div class="layui-upload-list">
+                <img class="layui-upload-img" width="150" height="150" id="demo1">
+                <p id="demoText"></p>
+              </div>
+            </div>
+            <div class="layui-upload" id="upload-banner">
+              <button type="button" class="layui-btn" id="banner">
+                <i class="layui-icon">&#xe67c;</i>PC端（尺寸：1920*600px）
+              </button>
+              <div class="layui-upload-list">
+                <img class="layui-upload-img" width="150" height="150" id="demo2">
+                <p id="demoText2"></p>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title" style="padding-left:30px;">
+          <li class="layui-this">PC端内容</li>
+          {eq name="Think.config.version.en" value="true"}
+          <li>PC端内容（英文）</li>
+          {/eq}
+          {eq name="Think.config.version.mb" value="true"}
+            <li>手机端内容</li>
+            {eq name="Think.config.version.en" value="true"}
+            <li>手机端内容（英文）</li>
+            {/eq}
+          {/eq}
+        </ul>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">
+            <div class="layui-form-item layui-form-text">
+              <div style="max-width:1000px; padding-left:20px">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="content" id="container" style="border:0;padding:0"></textarea>
+              </div>
+            </div>
+          </div>
+          {eq name="Think.config.version.en" value="true"}
+          <div class="layui-tab-item">
+            <div class="layui-form-item layui-form-text">
+              <div style="max-width:1000px; padding-left:20px">
+                <textarea placeholder="请输入内容" class="layui-textarea" name="en_content" id="container2" style="border:0;padding:0"></textarea>
+              </div>
+            </div>
+          </div>
+          {/eq}
+
+          {eq name="Think.config.version.mb" value="true"}
+            <div class="layui-tab-item">
+              <div class="layui-form-item layui-form-text">
+                <div style="max-width:1000px; padding-left:20px">
+                  <textarea placeholder="请输入内容" class="layui-textarea" name="mb_content" id="container3" style="border:0;padding:0"></textarea>
+                </div>
+              </div>
+            </div>
+            {eq name="Think.config.version.en" value="true"}
+            <div class="layui-tab-item">
+              <div class="layui-form-item layui-form-text">
+                <div style="max-width:1000px; padding-left:20px">
+                  <textarea placeholder="请输入内容" class="layui-textarea" name="en_mb_content" id="container4" style="border:0;padding:0"></textarea>
+                </div>
+              </div>
+            </div>
+            {/eq}
+          {/eq}
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">是否菜单</label>
+        <div class="layui-input-block">
+          <input type="radio" name="is_menu" value="1" title="是" checked="">
+          <input type="radio" name="is_menu" value="0" title="否">
+        </div>
+      </div>
+<!-- 
+      <div class="layui-form-item">
+        <label class="layui-form-label">链接URL</label>
+        <div class="layui-input-inline width-800">
+          <input type="text" name="link_url" autocomplete="off" placeholder="请输入菜单链接URL" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">（选填），格式：C/A</div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">链接参数</label>
+        <div class="layui-input-inline width-800">
+          <input type="text" name="parameter" autocomplete="off" placeholder="请输入链接的参数" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">（选填）</div>
+      </div>  
+-->      
+      <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline width-800">
+          <input type="text" name="orders" value="99" maxlength="5" autocomplete="off" placeholder="小排前" class="layui-input" lay-verify="required|number">
+        </div>
+        <div class="layui-form-mid layui-word-aux">小排前</div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">别名</label>
+        <div class="layui-input-inline width-800">
+          <input type="text" name="mark" autocomplete="off" placeholder="请输入页面别名" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">只限英文字母及下划线</div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" lay-submit lay-filter="admin">立即提交</button>
+          <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+        </div>
+      </div>
+    </form>
+  </div>
+
+<script src="__PUBLIC__/layui/layui.js"></script>
+<script src="__PUBLIC__/jquery/jquery.min.js"></script>
+<script>
+layui.use('upload', function(){
+  var upload = layui.upload;
+  //执行实例
+  var uploadInst = upload.render({
+    elem: '#thumb' //绑定元素
+    ,url: "{:url('common/upload')}" //上传接口
+    ,data:{use:'page'} //使用模块，图片存放目录
+    ,done: function(res){
+      //上传完毕回调
+      if(res.code == 2) {
+        $('#demo1').attr('src',res.src);
+        $('#upload-thumb').append('<input type="hidden" name="thumb" value="'+ res.id +'">');
+      } else {
+        layer.msg(res.msg);
+      }
+    }
+    ,error: function(){
+      //请求异常回调
+      //演示失败状态，并实现重传
+      var demoText = $('#demoText');
+      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+      demoText.find('.demo-reload').on('click', function(){
+        uploadInst.upload();
+      });
+    }
+  });
+
+  //执行实例2
+  var uploadInst2 = upload.render({
+    elem: '#banner' //绑定元素
+    ,url: "{:url('common/upload')}" //上传接口
+    ,data:{use:'page'} //使用模块，图片存放目录
+    ,done: function(res){
+      //上传完毕回调
+      if(res.code == 2) {
+        $('#demo2').attr('src',res.src);
+        $('#upload-banner').append('<input type="hidden" name="banner" value="'+ res.id +'">');
+      } else {
+        layer.msg(res.msg);
+      }
+    }
+    ,error: function(){
+      //请求异常回调
+      //演示失败状态，并实现重传
+      var demoText = $('#demoText2');
+      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+      demoText.find('.demo-reload').on('click', function(){
+        uploadInst2.upload();
+      });
+    }
+  });
+});
+</script>
+<script>
+  layui.use(['layer', 'form', 'element'], function() {
+      var layer = layui.layer,
+          $ = layui.jquery,
+          form = layui.form,
+          element = layui.element;
+
+      $(window).on('load', function() {
+          form.on('submit(admin)', function(data) {
+              $.ajax({
+                  url:"{:url('admin/page/add')}",
+                  data:$('#admin').serialize(),
+                  type:'post',
+                  async: false,
+                  success:function(res) {
+                      if(res.code == 1) {
+                          layer.alert(res.msg, function(index){
+                            location.href = res.url;
+                          })
+                      } else {
+                          layer.msg(res.msg);
+                      }
+                  }
+              })
+              return false;
+          });
+      });
+  });
+</script>
+
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/ueditor/ueditor.all.js"></script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript">
+    var ue = UE.getEditor('container');
+
+    {eq name="Think.config.version.en" value="true"}
+      var ue2 = UE.getEditor('container2'); 
+    {/eq}
+
+    {eq name="Think.config.version.mb" value="true"}
+      var ue3 = UE.getEditor('container3');
+      {eq name="Think.config.version.en" value="true"}
+        var ue4 = UE.getEditor('container4');
+      {/eq}
+    {/eq} 
+</script>
+
+</body>
+</html>

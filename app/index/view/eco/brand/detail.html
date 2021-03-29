@@ -1,0 +1,212 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="background" style="background-image: url('{$company.brandimg}');"></div>
+        <div class="content-layer">
+            <div class="wrap">
+							<h3 style="font-weight: 400; float: none; padding-bottom: 40px;">{$company.nickname}</h3>
+							{notempty name="$company.url"}<a href="{$company.url}" class="gobrand"></a>{/notempty}
+						</div>
+        </div>
+      </div>
+  </div>
+</div>
+<nav>
+	<!-- <a class="goto" href="#"></a> -->
+	<ul class="wrap">
+		<li>
+			<a href="#">关于</a>
+		</li>
+		<li>
+			<a href="#">获奖</a>
+		</li>
+		<li>
+			<a href="#">主理人</a>
+		</li>
+		<li>
+			<a href="#">作品</a>
+		</li>
+		<li>
+			<a href="#">动态</a>
+		</li>
+		<li>
+			<a href="#">联系</a>
+		</li>
+	</ul>
+</nav>
+{/block}
+
+{block name="content"}
+
+<!-- product-list -->
+<div class="product-list">
+  <div class="wrap">
+      <h3 class="center-list-title">WORKS</h3>
+			{empty name="works"}
+				<div class="empty" style="font-size:20px; padding: 65px 20px; text-align: center;">暂无内容</div>
+			{else /}
+      <ul class="clearfix list">
+          {volist name="works" id="vo"}
+          <li class="ant-container">
+              <div class="ani1">
+                  <a href="{:url('index/product/detail', ['id'=>$vo['id']])}">
+                      <div class="thumb" style="background-image: url({$vo.thumb});">
+                          <img src="{$vo.thumb}" alt="">
+                      </div>
+                      <span class="name">{$vo.title}</span>
+                  </a>
+              </div>
+          </li>
+          {/volist}
+      </ul>
+			{/empty}
+
+      {eq name="post.is_load" value="true"}
+				<div class="loading-icon"></div>
+				<p class="hint"></p>
+      {/eq}
+
+			<div class="ant-container animated">
+				<a class="view-more ant1" id="loadwork">VIEW <span>+</span></a>
+			</div>
+  </div>
+</div>
+
+<!-- team -->
+<div class="team">
+  <div class="wrap">
+		<h3 class="center-list-title">OWNER PRINCIPAL</h3>
+		
+		{empty name="teams"}
+			<div class="empty" style="font-size:20px; padding: 65px 20px; text-align: center;">暂无内容</div>
+		{else /}
+		<ul>
+			{volist name="teams" id="vo"}
+			<li>
+				<div class="twrap ant-container">
+					<div class="thumb">
+						<img class="ant1" src="{$vo.thumb}" alt="">
+						<div class="info">{$vo.description|nl2br}</div>
+					</div>
+					<h3 class="name">{$vo.title}</h3>
+				</div>
+			</li>
+			{/volist}
+		</ul>
+		{/empty}
+		<div class="ant-container animated">
+      <a class="view-more ant1">VIEW <span>+</span></a>
+    </div>
+	</div>
+</div>
+
+<!-- honor -->
+<div class="honor">
+  <div class="wrap">
+		<h3 class="center-list-title">HONOR</h3>
+		
+		{empty name="honor"}
+			<div class="empty" style="font-size:20px; padding: 65px 20px; text-align: center;">暂无内容</div>
+		{else /}
+		<ul class="clearfix">
+			{volist name="honor" id="vo"}
+			<li class="ant-container">
+				<div class="ani1">
+					<a href="{:url('index/news/detail', ['id'=>$vo['id']])}">
+						<div class="thumb" data-style="background: url({$vo.thumb}) center center no-repeat;">
+							<img src="{$vo.thumb}" alt="" />
+						</div>
+						<div class="info">
+							<span class="time">{$vo.create_time}</span>
+							<span class="title">{$vo.title}</span>
+						</div>
+					</a>
+				</div>
+			</li>
+			{/volist}
+		</ul>
+		{/empty}
+		<div class="ant-container animated">
+      <a class="view-more ant1">VIEW <span>+</span></a>
+    </div>
+	</div>
+</div>
+
+<!-- news -->
+<div class="news">
+	<div class="wrap">
+		<h3 class="center-list-title">NEWS</h3>
+		
+		{empty name="news"}
+			<div class="empty" style="font-size:20px; padding: 65px 20px; text-align: center;">暂无内容</div>
+		{else /}
+		<ul class="clearfix">
+			{volist name="news" id="vo"}
+			<li class="ant-container">
+				<div class="ani1">
+					<a href="{:url('index/news/detail', ['id'=>$vo['id']])}">
+						<div class="thumb" data-style="background: url({$vo.thumb}) center center no-repeat;">
+							<img src="{$vo.thumb}" alt="" />
+						</div>
+						<div class="info">
+							<span class="time">{$vo.create_time|strtotime|date="M j, Y", ###}</span>
+							<span class="title">{$vo.title}</span>
+						</div>
+					</a>
+				</div>
+			</li>
+			{/volist}
+		</ul>
+		{/empty}
+		<div class="ant-container animated">
+      <a class="view-more ant1">VIEW <span>+</span></a>
+    </div>
+	</div>
+</div>
+
+<!-- about -->
+<div class="about">
+	<div class="wrap">
+		<h3 class="center-list-title">ABOUT</h3>
+		<div class="overview">{$about}</div>
+	</div>
+</div>
+
+<!-- contact -->
+<div class="contact">
+	<div class="wrap">
+		<h3 class="center-list-title">CONTACT</h3>
+		<div class="overview">{$contact}</div>
+	</div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+var page = 1;
+$(document).ready(function(){
+	$('#loadwork').on('click', function(){
+		++page;
+		$.get('/index/brand/work/id/12?page=' + page, function(data){
+			var res = data.data;
+			if (res.length === 0) return $('.product-list .view-more').hide();
+			for(let i = 0; i < res.length; ++i) {
+				$('.product-list ul').append('<li class="ant-container animated">'+
+					'<div class="ani1">'+
+						'<a href="">'+
+							'<div class="thumb" style="background-image: url(' + res[i].thumb + ');">'+
+								'<img src="' + res[i].thumb + '" alt="">'+
+							'</div>'+
+							'<span class="name">' + res[i].title + '</span>'+
+						'</a>'+
+					'</div>'+
+				'</li>')
+			}
+		})
+	})
+});
+</script>
+{/block}

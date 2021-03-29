@@ -1,0 +1,31 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {volist name="slides" id="vo"}
+      <div class="swiper-slide">
+        <div class="background" style="background-image: url('{$vo.banner}');"></div>
+        <div class="content-layer">
+            <h1>{$vo.name}</h1>
+        </div>
+      </div>
+    {/volist}
+  </div>
+</div>
+{/block}
+
+{block name="content"}
+<div class="case-detail">
+  <div class="wrap">
+		<h1 class="title">{$detail.title}</h1>
+      <h3>{$detail.subtitle}</h3>
+      <p>{$detail.description}</p>
+  </div>
+  <div class="cases-dtl wrap">
+      {volist name="detail.content" id="vo"}
+      <img src="{$vo}" alt="">
+      {/volist}
+  </div>
+</div>
+{/block}

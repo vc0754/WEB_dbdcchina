@@ -1,0 +1,55 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="content-layer">
+          <div class="wrap">
+            <form action="/search.html" name="search_inner" class="search_inner">
+              <input type="text" name="keyword" placeholder="Search">
+              <input type="hidden" name="type" value="{$type}">
+              <button type="submit" style="background-color: transparent;">
+                <img src="/static/website/images/icon/search_0.png" alt="" class="search">
+              </button>
+            </form>
+            <h2>共找到<span class="color-primary">{$totalsum}</span>条和“{$keyword}”相关的内容</h2>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+{/block}
+
+{block name="content"}
+<div class="search-list">
+  <div class="wrap">
+    <h2 class="search-list-title">搜索结果</h2>
+    <ul class="classification">
+      <li {eq name="type" value="case"}class="current"{/eq}><a href="/search?type=case&keyword={$keyword}">作品({$total['case']})</a></li>
+      <li {eq name="type" value="event"}class="current"{/eq}><a href="/search?type=event&keyword={$keyword}">动态({$total['event']})</a></li>
+      <li {eq name="type" value="company"}class="current"{/eq}><a href="/search?type=company&keyword={$keyword}">公司({$total['company']})</a></li>
+    </ul>
+
+    <div class="team">
+      {empty name="res"}
+        <div class="empty" style="font-size:20px; padding: 45px 20px; text-align: center;">暂无内容</div>
+      {else /}
+        <ul>
+          {volist name="res" id="vo"}
+          <li>
+            <div class="twrap ant-container">
+              <div class="thumb">
+                <img class="ant1" src="{$vo.thumb}" alt="">
+                <!-- <div class="info">{$vo.description|nl2br}</div> -->
+              </div>
+              <h3 class="name">{$vo.title}</h3>
+            </div>
+          </li>
+          {/volist}
+        </ul>
+      {/empty}
+    </div>
+  </div>
+</div>
+{/block}

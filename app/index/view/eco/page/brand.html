@@ -1,0 +1,69 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {volist name="slides" id="vo"}
+      <div class="swiper-slide">
+        <div class="background" style="background-image: url('{$vo.banner}');"></div>
+        <div class="content-layer">
+          <div class="wrap">
+            <h2>全国设计资源，汇集于青桐</h2>
+            <a href="/contact" class="addsite">加入青桐中国 +</a>
+          </div>
+        </div>
+      </div>
+      {/volist}
+  </div>
+</div>
+{/block}
+
+{block name="content"}
+<div class="brand-list">
+  <div class="wrap">
+    <h2 class="brand-list-title">切换城市
+      <span {neq name="city" value=""}class="r"{/neq}></span>
+    </h2>
+    {present name="cities"}
+    <ul class="classification" {eq name="city" value=""}style="overflow: hidden; display: none;"{/eq}>
+      <li {eq name="city" value=""}class="current"{/eq}>
+        <a href="/brand">全国</a>
+      </li>
+      {volist name="cities" id="vo"}
+      <li {eq name="city" value="$vo"}class="current"{/eq}>
+        <a href="brand?city={$vo}">{$vo}</a>
+      </li>
+      {/volist}
+    </ul>
+    {/present}
+
+    <ul class="list clearfix">
+        {volist name="users" id="vo" empty="暂无相关记录！"}
+            <li class="ant-container">
+                <div class="ani1">
+                    <a href="{:url('index/brand/detail', ['id'=>$vo['id']])}" target="_blank">
+                      <div class="thumb" data-style="background: url({$vo.brandimg}) center center no-repeat;">
+                          <img src="{$vo.brandimg}" alt="" />
+                      </div>
+                      <div class="info">
+                        <img src="/static/website/images/b_logo.png" alt="" class="b_logo">
+                        {notempty name="vo.city"}
+                        <div class="location">
+                          <img src="/static/website/images/location_icon.png" alt="">
+                          <span>{$vo.city}</span>
+                        </div>
+                        {/notempty}
+                        <div class="text">
+                          {notempty name="vo.subname"}<h2 class="subtitle">{$vo.subname}</h2>{/notempty}
+                          <h2 class="title">{$vo.nickname}</h2>
+                        </div>
+                      </div>
+                    </a>
+                </div>
+            </li>
+        {/volist}
+    </ul>
+
+  </div>
+</div>
+{/block}

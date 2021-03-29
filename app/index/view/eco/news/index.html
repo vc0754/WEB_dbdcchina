@@ -1,0 +1,155 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {volist name="slides" id="vo"}
+      <div class="swiper-slide">
+        <div class="background" style="background-image: url('{$vo.banner}');"></div>
+        <div class="content-layer">
+            <!-- <h1>{$vo.name}</h1> -->
+            <h1>新闻</h1>
+        </div>
+      </div>
+    {/volist}
+  </div>
+</div>
+{/block}
+
+{block name="content"}
+<!-- product-list -->
+<div class="news-list">
+    <div class="wrap">
+        <h2 class="news-list-title">分类
+            <span {neq name="post.cid" value=""}class="r"{/neq}></span>
+        </h2>
+
+        {present name="cates"}
+        <ul class="classification" {eq name="post.cid" value=""}style="overflow: hidden; display: none;"{/eq}>
+            {volist name="cates" id="vo"}
+            <li {eq name="post.cid" value="$vo['cid']"}class="current"{/eq}><a href="{:url('index/news/index', ['mark'=>$vo['mark']])}">{$vo.name}</a></li>
+            {/volist}
+        </ul>
+        {/present}
+
+		{empty name="lists"}
+			<div class="empty" style="font-size:20px; padding: 65px 20px; text-align: center;">暂无内容</div>
+		{else /}
+        <ul class="list clearfix">
+            {volist name="lists" id="vo"}
+                <li class="ant-container">
+                    <div class="ani1">
+                        <a href="{:url('index/news/detail', ['id'=>$vo['id']])}">
+                            <div class="thumb" data-style="background: url({$vo.thumb}) center center no-repeat;">
+                                <img src="{$vo.thumb}" alt="" />
+                            </div>
+                            <div class="info">
+                                <span class="time">{$vo.create_time|date="M j, Y", ###}</span>
+                                <h2 class="title">{$vo.title}</h2>
+                                <!-- <p class="summary">{$vo.description}</p> -->
+                            </div>
+                        </a>
+                    </div>
+                </li>
+            {/volist}
+        </ul>
+		{/empty}
+        {eq name="post.is_load" value="true"}
+            <!-- <div class="loading-icon">
+                <img src="/static/website/images/icon/rolling.gif" alt="">
+            </div>
+            <p class="hint"></p> -->
+        {/eq}
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script>
+    var isMobile = navigator.userAgent.toLowerCase().match(/Mobile/i) !== null;
+    $(function() {
+        // 滚动加载更多需要的变量
+        var listObj = {
+            listContainer: $('.news .list'),
+            loadingIcon: $('.news').find('.loading-icon'),
+            hint: $('.news').find('.hint'),
+            cid: "{$post.cid|default=0}",
+            size: {$post.load},
+            num: 0, //计数器
+            isEnd: false, //是否到底了
+            flag: 1
+        };
+
+        {if condition="$post.is_load eq false"}
+            listObj.isEnd = true; //到底了 不加载
+        {/if}
+
+        $(window).scroll(function() {
+            if (listObj.isEnd === true || listObj.flag === 0) {
+                return;
+            }
+
+            if ($(window).height() - ($('.news').height() + $('.news').offset().top - $(document).scrollTop()) > 80) {
+                
+                //异步加载
+                $.ajax({
+                    url: "{:url('index/news/getlists')}",
+                    data: {cid:listObj.cid, num:listObj.num},
+                    type: 'GET',
+                    dataType: 'json',
+                    async: true,
+                    beforeSend: function() {
+                        listObj.flag = 0;
+                        listObj.loadingIcon.show();
+                    },
+                    complete: function() {
+                        listObj.flag = 1;
+                        listObj.loadingIcon.hide();
+                    },
+                    success: function(data) {
+                        if(data.length>0){
+                            var result = '';
+                            for (var i = 0; i < data.length; i++) {
+                                result += "<li class=\"ant-container\"><div class=\"ani1\"><a href=" + data[i].url + "><div class=\"thumb\" style=\"background: url(" + data[i].thumb + ") center center no-repeat;\"></div><h2 class=\"title\">" + data[i].title +
+                                    "</h2><span class=\"time\">" + data[i].create_time + "</span><p class=\"summary\">" + data[i].description + "</p><div class=\"view\"></div></a></div></li>";
+                            }
+                            listObj.listContainer.append(result); //追加
+
+                            // 本次获取的记录数小于指定要获取的记录数，说明已到最后了
+                            if(data.length<listObj.size){
+                                listObj.isEnd = true;
+                            }
+
+                            setTimeout(function() {
+                                $('.ant-container').each(function() {
+                                    var winScrollTop = $(window).scrollTop(),
+                                        winHeight = $(window).height(),
+                                        offsetTop = $(this).offset().top,
+                                        rate = isMobile ? (2.8 / 3) : (2.5 / 3);
+                                    if (offsetTop <= winScrollTop + winHeight * rate) {
+                                        if (!$(this).addClass('animated')) {
+                                            $(this).addClass('animated');
+                                        }
+                                    }
+                                });
+                                if (listObj.isEnd === true) {
+                                    listObj.hint.text('---- 没有更多动态记录了 ----').css('color', '#999').show();
+                                }
+                            }, 500);
+
+                        }else{
+                            listObj.isEnd = true;
+                            listObj.hint.text('---- 没有更多动态记录了 ----').css('color', '#999').show();
+                        }
+                    },
+                    error: function() {
+                        listObj.hint.html('数据加载异常，请稍后重试').show().delay(3000).hide(0);
+                    }
+                });
+
+                listObj.num++; //计数器累加
+            }
+        });
+    });
+</script>
+{/block}

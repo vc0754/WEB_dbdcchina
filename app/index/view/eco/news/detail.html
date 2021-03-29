@@ -1,0 +1,40 @@
+{extend name="Public:base" /}
+
+{block name="swiper"}
+<div class="swiper-container">
+  <div class="swiper-wrapper">
+    {volist name="slides" id="vo"}
+      <div class="swiper-slide">
+        <div class="background" style="background-image: url('{$vo.banner}');"></div>
+        <div class="content-layer">
+            <h1>{$vo.name}</h1>
+        </div>
+      </div>
+    {/volist}
+  </div>
+</div>
+{/block}
+
+{block name="content"}
+<div class="news-detail">
+	<div class="wrap">
+		<h1 class="title">{$detail.title}</h1>
+		<div class="meta">
+			<span class="time">发布时间：{$detail.create_time|date="M j, Y", ###}</span>
+			<span class="from">来源于：{$detail.author}</span>
+		</div>
+		<div class="content">
+			{$detail.content}
+		</div>
+		<div class="tool">
+			<a href="{:url('index/news/index')}" class="back" title="返回"></a>
+			{notempty name="detail.prev_id"}
+				<a href="{:url('index/news/detail', ['id'=>$detail['prev_id']])}" class="prev">◀ 上一条动态</a>
+			{/notempty}
+			{notempty name="detail.next_id"}
+				<a href="{:url('index/news/detail', ['id'=>$detail['next_id']])}" class="next">下一条动态 ▶</a>
+			{/notempty}
+		</div>
+	</div>
+</div>
+{/block}
